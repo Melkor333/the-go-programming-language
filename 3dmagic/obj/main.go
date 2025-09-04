@@ -1,17 +1,24 @@
 // function to render all ceoordinates in a raster 0-1
-package main
+package obj
 
 import (
 	"math"
 )
 
-type coord struct{
-	x, y float64
+type Vertex struct{
+	X, Y, Z float64
+	Edges []*Vertex
 }
 
+type Coord struct{
+	X, Y float64
+}
 
-func polygon(edgeCount int, rad, center float64) []coord {
-	o := make([]coord, edgeCount)
+// coordinates, but they are supposed to be connected!
+type Coords []*Coord
+
+func RegularPolygon(edgeCount int, rad, center float64) Coords {
+	o := make(Coords, edgeCount)
 	// glichschenkligs 3egg, berechnemer opposite side
 	for i := range edgeCount {
 		// get degree and convert to rad
@@ -21,7 +28,7 @@ func polygon(edgeCount int, rad, center float64) []coord {
 		// resize and shift around center
 		x = (x * rad) + center
 		y = (y * rad) + center
-		o[i] = coord{x, y}
+		o[i] = &Coord{x, y}
 	}
 	return o
 }
